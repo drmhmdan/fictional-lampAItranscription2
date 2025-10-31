@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Transcription and Gemini Response</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Configuration</h1>
+        </header>
+        <main>
+            <div class="configuration-section">
+                <div class="config-item">
+                    <label for="whisper-model">Whisper model</label>
+                    <select id="whisper-model">
+                        <option>large-v3-turbo</option>
+                        <option>large-v3</option>
+                        <option>medium</option>
+                        <option>small</option>
+                        <option>tiny</option>
+                        <option>TheChola/whisper-large-v3-turbo-german-faster-whisper</option>
+                    </select>
+                </div>
+                <div class="config-item">
+                    <label for="transcription-language">Transcription language</label>
+                    <select id="transcription-language">
+                        <option>German</option>
+                        <option>English</option>
+                        <option>Arabic</option>
+                    </select>
+                </div>
+                <div class="config-item">
+                    <label for="gemini-model">Gemini model</label>
+                    <select id="gemini-model">
+                        <option>pro 2.5</option>
+                        <option selected>flash 2.5 (stable)</option>
+                        <option>flash 2.5 lite</option>
+                    </select>
+                </div>
+                <div class="config-item">
+                    <input type="checkbox" id="auto-send">
+                    <label for="auto-send">Auto-send after stop</label>
+                </div>
+            </div>
+            <div class="recording-section">
+                <h2>Recording</h2>
+                <button id="record-button">Start Recording</button>
+            </div>
+            <div class="transcription-section">
+                <h2>Transcription</h2>
+                <textarea id="transcription" rows="10" readonly></textarea>
+            </div>
+            <div class="gemini-response-section">
+                <h2>Gemini Response</h2>
+                <textarea id="gemini-response" rows="10" readonly></textarea>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
