@@ -3,8 +3,10 @@ import os
 import tempfile
 from faster_whisper import WhisperModel
 import google.generativeai as genai
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # --- Configuration ---
 WHISPER_MODEL_OPTIONS = [
@@ -25,6 +27,15 @@ GEMINI_MODEL_ALIASES = {
     "flash 2.5 (stable)": "models/gemini-2.5-flash",
     "flash 2.5 lite": "models/gemini-2.5-flash-lite",
 }
+
+# --- Whisper Model Caching ---
+whisper_models = {}
+
+def get_whisper_model(model_size):
+    if model_size not in whisper_models:
+        print(f"Loading Whisper model: {model_size}")
+        whisper_models[model_size] = WhisperModel(model_size, device="cpu", compute_type="int8")
+    return whisper_models[model_size]
 
 # --- Gemini Model Initialization ---
 try:
@@ -53,7 +64,7 @@ def transcribe_audio():
     if model_size not in WHISPER_MODEL_OPTIONS:
         return jsonify({"error": f"Invalid model: {model_size}"}), 400
 
-    whisper_model = WhisperModel(model_size, device="cpu", compute_type="int8")
+    whisper_model = get_whisper_model(model_size)
 
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio:
